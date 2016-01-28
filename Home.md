@@ -12,4 +12,3 @@
 
 ###[linux](linux)
 
-|shell|software|
