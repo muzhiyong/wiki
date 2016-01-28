@@ -4,7 +4,7 @@
 <h5 id="find">find</h5> 
 
 
->		# linux文件无创建时间
+		# linux文件无创建时间
 		# Access 使用时间  
 		# Modify 内容修改时间  
 		# Change 状态改变时间(权限、属主)
@@ -28,6 +28,9 @@
 		find . -name 't*' -exec basename {} \;                  # 查找文件名,不取路径
 		find . -type f -name "err*" -exec  rename err ERR {} \; # 批量改名(查找err 替换为 ERR {}文件
 		find 路径 -name *name1* -or -name *name2*               # 查找任意一个关键字
+                find /logs -name "*log" -ctime +3 -exec rm -f {} \;     # 查找目录下的日志文件并删除
+              
+
 
 
 
