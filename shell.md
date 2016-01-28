@@ -46,7 +46,9 @@
 	diff suzu.c suzu2.c  > sz.patch         # 制作补丁
 	patch suzu.c < sz.patch                 # 安装补丁
 	
-	sort排序{
+
+
+	sort排序
 	
 		-t  # 指定排序时所用的栏位分隔字符
 		-n  # 依照数值的大小排序
@@ -72,7 +74,7 @@
 		sort -k 1.3 a.txt                 # 从第三个字母起进行排序
 		sort -t" " -k 2n -u  a.txt        # 以第二域进行排序，如果遇到重复的，就删除
 
-	}
+	
 
 	find查找{
 
