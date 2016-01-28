@@ -2,8 +2,11 @@
 
 find
 <h5 id="find">find</h5>
-<font color="red">This is some text!</font>
 
+```
+find /opt/wwwlogs/ -ctime +3 -exec rm -f {} \;   # 查找/opt/wwwlogs/目录下改变时间在3天前的文件并删除
+
+```
 
 		# linux文件无创建时间
 		# Access 使用时间  
@@ -29,5 +32,7 @@ find
 		find . -name 't*' -exec basename {} \;                  # 查找文件名,不取路径
 		find . -type f -name "err*" -exec  rename err ERR {} \; # 批量改名(查找err 替换为 ERR {}文件
 		find 路径 -name *name1* -or -name *name2*               # 查找任意一个关键字
+                
+
 
 	}
