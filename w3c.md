@@ -1,5 +1,6 @@
 下拉框多选-下拉框设置(size)
 
+```
 <form action = "http://www.blabla.cn/asdocs/html_tutorials/choose.asp" method = "post">
 你最喜欢的水果是：<br>
 <select name="fruit" size = "1" multiple>
@@ -9,3 +10,4 @@
  </select>
  <input type="submit" value="提交">
 </form>
+```
