@@ -7,7 +7,7 @@ cursor.execute("""SELECT DISTINCT first_name FROM books_author WHERE last_name =
 row = cursor.fetchone()
 print row
 ```
-
+* 
 cursor用来执行命令的方法:
 
 callproc(self, procname, args):用来执行存储过程,接收的参数为存储过程名和参数列表,返回值为受影响的行数
