@@ -1,6 +1,7 @@
+[vim](#vim) 
 
 
-	vim编辑器{
+<h5 id="vim">vim</h5> 
 
 		gconf-editor       # 配置编辑器
 		/etc/vimrc         # 配置文件路径
@@ -27,4 +28,3 @@
 		%s/字符1/字符2/g   # 全部替换	
 		X                  # 文档加密
 	
-	}
