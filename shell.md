@@ -28,10 +28,8 @@
 		find . -name 't*' -exec basename {} \;                  # 查找文件名,不取路径
 		find . -type f -name "err*" -exec  rename err ERR {} \; # 批量改名(查找err 替换为 ERR {}文件
 		find 路径 -name *name1* -or -name *name2*               # 查找任意一个关键字
-                find /logs -name "*log" -ctime +3 -exec rm -f {} \;     # 查找目录下的日志文件并删除
+		find /logs -name "*log" -ctime +3 -exec rm -f {} \;     # 查找目录下的日志文件并删除
               
-
-
 
 
 <h5 id="sort">sort</h5> 
@@ -59,5 +57,6 @@
 		sort -n -t':' -k 3r a.txt         # 以:为分割域的第三域进行倒叙排列
 		sort -k 1.3 a.txt                 # 从第三个字母起进行排序
 		sort -t" " -k 2n -u  a.txt        # 以第二域进行排序，如果遇到重复的，就删除
+		netstat -anlp |grep 2181  |awk '{print $5}' |awk -F: '{print $1}' |sort |uniq -c | sort -rn  |head  # 查看zookeeper 链接数
 
 
