@@ -4,6 +4,8 @@
 
 ###[java](java)
 
+###[shell](shell)
+
 ###[linux](linux)
 
 |shell|software|
