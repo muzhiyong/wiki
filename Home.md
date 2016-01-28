@@ -1,4 +1,3 @@
-##My Wiki 
 
 *[markdown语法参考](markdown)*
 
