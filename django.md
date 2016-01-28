@@ -15,11 +15,7 @@ print row
 * nextset(self):移动到下一个结果集
 
 2. cursor用来接收返回值的方法:
-
-fetchall(self):接收全部的返回结果行.
-
-fetchmany(self, size=None):接收size条返回结果行.如果size的值大于返回的结果行的数量,则会返回cursor.arraysize条数据.
-
-fetchone(self):返回一条结果行.
-
-scroll(self, value, mode='relative'):移动指针到某一行.如果mode='relative',则表示从当前所在行移动value条,如果mode='absolute',则表示从结果集的第一 行移动value条.
+* fetchall(self):接收全部的返回结果行.
+* fetchmany(self, size=None):接收size条返回结果行.如果size的值大于返回的结果行的数量,则会返回cursor.arraysize条数据.
+* fetchone(self):返回一条结果行.
+* scroll(self, value, mode='relative'):移动指针到某一行.如果mode='relative',则表示从当前所在行移动value条,如果mode='absolute',则表示从结果集的第一 行移动value条.
