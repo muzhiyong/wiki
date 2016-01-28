@@ -2,8 +2,8 @@
 
 *[markdown语法参考](markdown)*
 
-###python
+###python(python)
 
-###java
+###java(java)
 
-###mac
+###linux(linux)
