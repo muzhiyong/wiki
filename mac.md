@@ -2,4 +2,5 @@
 
 
 ####alias
-> alias upwiki="sh /Users/Mu/Documents/update_mywiki.sh"
+
+`alias upwiki="sh /Users/Mu/Documents/update_mywiki.sh"`
