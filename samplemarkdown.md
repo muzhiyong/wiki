@@ -26,13 +26,13 @@ markdown 简明语法
 * 列表内容很长，不需要手工输入换行符，css控制段落的宽度，会自动的缩放的
 
 ##链接
-* 直接写 [锚文本](url "可选的title")
+* 直接写 [锚文本]\(url "可选的title"\)
 * 引用 先定义 [ref_name]:url，然后在需要写入url的地方， 这样使用[锚文本][ref_name]，通常的ref_name一般用数字表示，这样显得专业
 * 简写url：用尖括号包裹url 
 这样生成的url锚文本就是url本身
 
 ##插入图片
-* 一行表示: ![alt_text](url "可选的title")
+* 一行表示: \![alt_text]\(url "可选的title"\)
 * 引用表示法: ![alt_text][id],预先定义 [id]:url "可选title"
 * 直接使用<img>标签，这样可以指定图片的大小尺寸
 
