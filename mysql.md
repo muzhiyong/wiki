@@ -1,4 +1,4 @@
-[install](#install) | [cmd](#cmd) | [backup](#backup) |[master-slave](master-slave) |[]()|[]()|[]()
+[install](#install) | [cmd](#cmd) | [backup](#backup) |[master-slave](#master-slave) |[]()|[]()|[]()
 
 
 <h5 id="install">install</h5> 
