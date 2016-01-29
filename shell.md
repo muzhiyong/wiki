@@ -2,6 +2,8 @@
 
 [awk](awk) |[sed](sed)
 
+[variable](variable)
+
 [if](#if)|[for](#for)|[while](#while) | [case](#case)|[until](#until)
 
 <font color="red">This is some text!</font>
