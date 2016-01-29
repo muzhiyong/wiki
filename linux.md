@@ -13,6 +13,9 @@
 
 [sudo](#sudo)|[ulimit](#ulimit) | [date](#date)  |[chkconfig](#chkconfig)
 
+[network](#network)|[disk](#disk)
+
+
 *需要详细整理*
 
 [iptables](iptables)|[进程](#process)
@@ -603,6 +606,66 @@ chkconfig mysqld on        #设定mysqld在各等级为on，“各等级”包�
 ```
 service mysql status              
 systemctl status  mysql.service   # redhat 7.X
+```
+
+<h5 id="network">network</h5> 
+
+* 常用命令
+
+```
+	ifconfig eth0 down                  # 禁用网卡
+	ifconfig eth0 up                    # 启用网卡
+	ifup eth0:0                         # 启用网卡
+	vi /etc/resolv.conf                 # 设置DNS  nameserver IP 定义DNS服务器的IP地址
+	nslookup www.moon.com               # 解析域名IP
+	dig -x www.baidu.com                # 解析域名IP
+	curl -I www.baidu.com               # 查看网页http头
+	tcpdump tcp port 22                 # 抓包
+	wget -P 路径 http地址               # 下载  包名:wgetrc
+	curl -d "user=xuesong&pwd=123" http://www.abc.cn/Result    # 提交web页面表单 需查看表单提交地址
+	rsync -avzP -e "ssh -p 22" /dir user@$IP:/dir              # 同步目录 # --delete 无差同步 删除目录下其它文件
+	ifconfig eth0:0 192.168.1.221 netmask 255.255.255.0        # 增加逻辑IP地址
+	mtr -r www.baidu.com                                       # 测试网络链路节点响应时间 # trace ping 结合
+	echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all           # 禁ping
+	ipcalc -m "$ip" -p "$num"                                  # 根据IP和主机最大数计算掩码
+	dig +short txt hacker.wp.dg.cx                             # 通过 DNS 来读取 Wikipedia 的hacker词条
+	host -t txt hacker.wp.dg.cx                                # 通过 DNS 来读取 Wikipedia 的hacker词条
+	net rpc shutdown -I IP_ADDRESS -U username%password        # 远程关掉一台WINDOWS机器
+	wget --random-wait -r -p -e robots=off -U Mozilla www.example.com    # 递归方式下载整个网站
+	mii-tool em1                        # 查看网线是否连接
+	traceroute www.baidu.com            # 测试跳数
+	lynx                                # 文本上网
+```
+
+
+
+* tcpdump
+
+抓取eth0 11215端口的数据
+
+`tcpdump -i eth0 dst port 11215 -A > tcpdump.log`
+
+可以用wireshark分析的包 cap
+
+`tcpdump -i eth0 dst port 20001 -A -s 0  -w tcpdump.cap`
+	
+* netstat{
+
+		-a     # 显示所有连接中的Socket
+		-t     # 显示TCP连接
+		-u     # 显示UDP连接
+		-n     # 显示所有已建立的有效连接
+		netstat -anlp           # 查看链接
+		netstat –r              # 查看路由表
+
+
+并发数查看
+
+```
+		netstat -n | awk '/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'
+		SYN_RECV     # 正在等待处理的请求
+		ESTABLISHED  # 正常数据传输状态,既当前并发数
+		TIME_WAIT    # 处理完毕，等待超时结束的请求
 ```
 
 
