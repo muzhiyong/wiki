@@ -139,7 +139,7 @@
 		wget http://download.fedoraproject.org/pub/epel/5/i386/epel-release-5-4.noarch.rpm
 		rpm -Uvh epel-release-5-4.noarch.rpm
 ```
-    比如*mysql源*
+    *mysql源*
 ```
 		wget http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm
 		rpm -ivh mysql-community-release-el7-5.noarch.rpm
