@@ -11,7 +11,7 @@
 
 [find](#find) |[sort](#sort)|[解压](#tar)
 
-[sudo](#sudo)|[ulimit](#ulimit) | [date](#date)
+[sudo](#sudo)|[ulimit](#ulimit) | [date](#date)  |[chkconfig](#chkconfig)
 
 *需要详细整理*
 
@@ -27,11 +27,21 @@
 
 <h5 id="start">开机启动脚本顺序</h5> 
 
-		/etc/profile
-		/etc/profile.d/*.sh
-		~/bash_profile
-		~/.bashrc
-		/etc/bashrc
+```
+第一步：通过/boot/vm进行启动 vmlinuz
+第二步：init /etc/inittab
+第三步：启动相应的脚本，并且打开终端
+rc.sysinit
+rc.d(里面的脚本）
+rc.local
+第四步：启动login登录界面 login
+第五步:在用户登录的时候执行sh脚本的顺序：每次登录的时候都会完全执行的
+/etc/profile.d/file
+/etc/profile
+/etc/bashrc
+/root/.bashrc
+/root/.bash_profile
+```
 
 <h5 id="sysinfo">系统信息</h5> 
 
@@ -543,13 +553,57 @@ ulimit -n 5000000
 		Defaults !visiblepw             # sudo不允许远程,去掉!既允许
 
 
+<h5 id="chkconfig">chkconfig</h5> 
+
+>参数用法：
+
+```
+   --add 　增加所指定的系统服务，让chkconfig指令得以管理它，并同时在系统启动的叙述文件内增加相关数据。
+   --del 　删除所指定的系统服务，不再由chkconfig指令管理，并同时在系统启动的叙述文件内删除相关数据。
+   --level<等级代号> 　指定读系统服务要在哪一个执行等级中开启或关毕。
+```
+
+>
+      等级0表示：表示关机
+      等级1表示：单用户模式
+      等级2表示：无网络连接的多用户命令行模式
+      等级3表示：有网络连接的多用户命令行模式
+      等级4表示：不可用
+      等级5表示：带图形界面的多用户模式
+      等级6表示：重新启动
+      需要说明的是，level选项可以指定要查看的运行级而不一定是当前运行级。对于每个运行级，只能有一个启动脚本或者停止脚本。当切换运行级时，init不会重新启动已经启动的服务，也不会再次去停止已经停止的服务。
+
+```
+chkconfig --list                         #列出所有的系统服务
+chkconfig --list |grep httpd*            # 查看某些服务的启动状态
+chkconfig --list mysqld                  #列出mysqld服务设置情况
+chkconfig --add httpd                    #增加httpd服务
+chkconfig --del httpd                    #删除httpd服务
+chkconfig --level httpd 2345 on          #设置httpd在运行级别为2、3、4、5的情况下都是on（开启）的状态
+chkconfig --level 35 mysqld on           #设定mysqld在等级3和5为开机运行服务，--level 35表示操作只在等级3和5执行，on表示启动，off表示关闭
+chkconfig mysqld on        #设定mysqld在各等级为on，“各等级”包括2、3、4、5等级
+```
 
 
+如何增加一个服务：
+
+1. 服务脚本必须存放在/etc/ini.d/目录下；
+
+2. 在chkconfig工具服务列表中增加此服务，此时服务会被在/etc/rc.d/rcN.d中赋予K/S入口了；
+
+> chkconfig --add servicename
+   
+3. 修改服务的默认启动等级。
+
+>chkconfig --level 35 mysqld on
 
 
+* 查看服务状态
 
-
-
+```
+service mysql status              
+systemctl status  mysql.service   # redhat 7.X
+```
 
 
 
