@@ -11,8 +11,9 @@
 
 [find](#find) |[sort](#sort)|[解压](#tar)
 
-[sudo](#sodu)|[ulimit](#ulimit) | [date](#date)
+[sudo](#sudo)|[ulimit](#ulimit) | [date](#date)
 
+[iptables](iptables)
 
 <h5 id="hotkey">终端快捷键</h5> 
 
