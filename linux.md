@@ -7,7 +7,7 @@
 
 [vim](#vim) | [终端快捷键](#hotkey)
 
-[进程](#process)|[rpm](#rpm)|[yum](#yum)|[history](#history)|[日志](#log)|[selinux](#selinux)|[crontab](#crontab)
+[rpm](#rpm)|[yum](#yum)|[history](#history)|[日志](#log)|[selinux](#selinux)|[crontab](#crontab)
 
 [find](#find) |[sort](#sort)|[解压](#tar)
 
@@ -15,7 +15,7 @@
 
 *需要详细整理*
 
-[iptables](iptables)
+[iptables](iptables)|[进程](#process)
 
 <h5 id="hotkey">终端快捷键</h5> 
 
