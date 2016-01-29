@@ -1,4 +1,14 @@
-[vim](#vim) |[进程](#process)|[rpm](#rpm)|[yum](#yum)
+[开机启动脚本顺序](#start) 
+[vim](#vim) |[进程](#process)|[rpm](#rpm)|[yum](#yum)|[history](#history)|[日志](#log)
+
+
+<h5 id="start">开机启动脚本顺序</h5> 
+
+		/etc/profile
+		/etc/profile.d/*.sh
+		~/bash_profile
+		~/.bashrc
+		/etc/bashrc
 
 
 <h5 id="vim">vim</h5> 
@@ -233,3 +243,22 @@
 		#导入key
 		rpm --import  /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-5
 ```
+
+<h5 id="history">history</h5> 
+
+		history                      # 历时命令默认1000条
+		HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "   # 让history命令显示具体时间,写入/etc/profile
+		history  -c                  # 清除记录命令
+		cat $HOME/.bash_history      # 历史命令记录文件
+
+<h5 id="log">日志</h5> 
+
+		last                         # 查看登陆过的用户信息
+		who /var/log/wtmp            # 查看登陆过的用户信息
+		lastlog                      # 用户最后登录的时间
+		lastb -a                     # 列出登录系统失败的用户相关信息
+		/var/log/btmp                # 登录失败二进制日志记录文件
+		tail -f /var/log/messages    # 系统日志
+		tail -f /var/log/secure      # ssh日志
+		dmesg                        # kernel信息
+		dmesg -c                     # 清除dmesg
