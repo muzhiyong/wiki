@@ -11,7 +11,7 @@
 
 [find](#find) |[sort](#sort)|[解压](#tar)
 
-[sudo](#sodu)|[ulimit](#ulimit) | [data](#data)
+[sudo](#sodu)|[ulimit](#ulimit) | [date](#date)
 
 
 <h5 id="hotkey">终端快捷键</h5> 
