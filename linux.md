@@ -1,5 +1,7 @@
-[开机启动脚本顺序](#start) 
-[vim](#vim) |[进程](#process)|[rpm](#rpm)|[yum](#yum)|[history](#history)|[日志](#log)
+
+[开机启动脚本顺序](#start) |[系统信息](#syscinfo)| [系统命令](#syscmd)
+
+[vim](#vim) |[进程](#process)|[rpm](#rpm)|[yum](#yum)|[history](#history)|[日志](#log)|[selinux](#selinux)
 
 
 <h5 id="start">开机启动脚本顺序</h5> 
@@ -9,6 +11,54 @@
 		~/bash_profile
 		~/.bashrc
 		/etc/bashrc
+
+<h5 id="sysinfo">系统信息</h5> 
+
+		uname -a              # 查看Linux内核版本信息
+		cat /proc/version     # 查看内核版本
+		cat /etc/issue        # 查看系统版本
+		cat /etc/redhat-release # 查看系统版本(redhat 7.X)
+		lsb_release -a        # 查看系统版本  需安装 centos-release
+		locale -a             # 列出所有语系
+		hwclock               # 查看时间
+		who | w               # 当前在线用户
+		whoami                # 查看当前用户名
+		logname               # 查看初始登陆用户名
+		uptime                # 查看服务器启动时间,系统状态
+		sar -n DEV 1 10       # 查看网卡网速流量
+		dmesg                 # 显示开机信息
+		lsmod	              # 查看内核模块
+
+<h5 id="syscmd">一般系统命令</h5> 
+	write user                  # 给指定用户发消息
+	wall        　  　          # 给其它用户发消息
+	whereis ls                  # 查找命令的目录
+	locate 文件名				#查找文件,依托数据库，updatedb 更新,/var/lib/mlocate/mlocate.db
+	which                       # 查看当前要执行的命令所在的路径
+	clear                       # 清空整个屏幕
+	reset                       # 乱码后重新初始化屏幕
+	cal                         # 显示月历
+	echo -n 123456 | md5sum     # md5加密
+	mkpasswd                    # 随机生成密码   -l位数 -C大小 -c小写 -d数字 -s特殊字符
+	netstat -anlp | grep port   # 是否打开了某个端口
+	ntpdate stdtime.gov.hk      # 同步时间
+	tzselect                    # 选择时区 #+8=(5 9 1 1) # (TZ='Asia/Shanghai'; export TZ)括号内写入 /etc/profile
+	/sbin/hwclock -w            # 保存到硬件
+	/etc/shadow                 # 账户影子文件
+	LANG=en                     # 修改语言
+	vim /etc/sysconfig/i18n     # 修改编码  LANG="en_US.UTF-8"
+	export LC_ALL=C             # 强制字符集
+	vi /etc/hosts               # 查询静态主机名
+	alias                       # 别名
+	watch uptime                # 监测命令动态刷新
+	ipcs -a                     # 查看Linux系统当前单个共享内存段的最大值
+	lsof |grep /lib             # 查看加载库文件
+	ldconfig                    # 动态链接库管理命令
+	dist-upgrade                # 会改变配置文件,改变旧的依赖关系，改变系统版本 
+	/boot/grub/grub.conf        # grub启动项配置
+	sysctl -p                   # 修改内核参数/etc/sysctl.conf，让/etc/rc.d/rc.sysinit读取生效
+	mkpasswd -l 8  -C 2 -c 2 -d 4 -s 0            # 随机生成指定类型密码
+	echo 1 > /proc/sys/net/ipv4/tcp_syncookies    # 使TCP SYN Cookie 保护生效  # "SYN Attack"是一种拒绝服务的攻击方式
 
 
 <h5 id="vim">vim</h5> 
@@ -260,5 +310,16 @@
 		/var/log/btmp                # 登录失败二进制日志记录文件
 		tail -f /var/log/messages    # 系统日志
 		tail -f /var/log/secure      # ssh日志
-		dmesg                        # kernel信息
+		dmesg                        # kernel信息,开机信息，运行时内存cpu报错等会显示
 		dmesg -c                     # 清除dmesg
+
+<h5 id="selinux">selinux</h5> 
+
+		sestatus -v                    # 查看selinux状态
+		getenforce                     # 查看selinux模式
+		setenforce 0                   # 设置selinux为宽容模式(可避免阻止一些操作)
+		semanage port -l    # 查看selinux端口限制规则
+		semanage port -a -t http_port_t -p tcp 8000  # 在selinux中注册端口类型
+		vi /etc/selinux/config         # selinux配置文件
+		SELINUX=enfoceing              # 关闭selinux 把其修改为  SELINUX=disabled
+
