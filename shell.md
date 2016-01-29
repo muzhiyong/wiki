@@ -1,6 +1,6 @@
 [regex](regex)  
 
-[awk](awk)
+[awk](awk) |[sed](sed)
 
 [if](#if)|[for](#for)|[while](#while) | [case](#case)|[until](#until)
 
