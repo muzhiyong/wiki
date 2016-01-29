@@ -5,7 +5,7 @@
 
 [开机启动脚本顺序](#start) |[系统信息](#syscinfo)|[硬件信息](#hardinfo)| [系统命令](#syscmd)
 
-[vim](#vim) | [终端快捷键](#hotkey)
+[vim](#vim) | [终端快捷键](#hotkey)|[ssh](#ssh)
 
 [rpm](#rpm)|[yum](#yum)|[history](#history)|[日志](#log)|[selinux](#selinux)|[crontab](#crontab)
 
@@ -13,7 +13,11 @@
 
 [sudo](#sudo)|[ulimit](#ulimit) | [date](#date)  |[chkconfig](#chkconfig)
 
-[network](#network)|[disk](#disk)
+[network](#network)|[tcpdump](#tcpdump)|[netstat](#netstat)
+
+[disk](#disk) |[xfs](#xfs)|[nfs](#nfs)
+
+[user](#user)
 
 
 *需要详细整理*
@@ -637,27 +641,66 @@ systemctl status  mysql.service   # redhat 7.X
 	lynx                                # 文本上网
 ```
 
+* 网卡配置文件
+
+		vi /etc/sysconfig/network-scripts/ifcfg-eth0
+
+		DEVICE=eth0
+		BOOTPROTO=none
+		BROADCAST=192.168.1.255
+		HWADDR=00:0C:29:3F:E1:EA
+		IPADDR=192.168.1.55
+		NETMASK=255.255.255.0
+		NETWORK=192.168.1.0
+		ONBOOT=yes        							#为no时网卡关闭
+		TYPE=Ethernet
+		GATEWAY=192.168.1.1
 
 
-* tcpdump
+* route
 
-抓取eth0 11215端口的数据
+		route                           								   # 查看路由表
+		route add default  gw 192.168.1.1  dev eth0                        # 添加默认路由
+		route add -net 172.16.0.0 netmask 255.255.0.0 gw 10.39.111.254     # 添加静态路由网关
+		route del -net 172.16.0.0 netmask 255.255.0.0 gw 10.39.111.254     # 删除静态路由网关
+
+* 添加虚拟网卡
+
+		cp /etc/sysconfig/network-scripts/ifcfg-eth0 /etc/sysconfig/network-scripts/ifcfg-eth0:1
+		DEVICE=eth0:1
+		IPADDR=192.168.1.56
+		ONBOOT=yes
+		...
+
+		ifup eth0:1    		#启动网卡
+		ifdown eth0:1       #关闭网卡
+
+
+
+
+<h5 id="tcpdump">tcpdump</h5> 
+
+
+* 抓取eth0 11215端口的数据
 
 `tcpdump -i eth0 dst port 11215 -A > tcpdump.log`
 
-可以用wireshark分析的包 cap
+* 可以用wireshark分析的包 cap
 
 `tcpdump -i eth0 dst port 20001 -A -s 0  -w tcpdump.cap`
-	
-* netstat{
 
-		-a     # 显示所有连接中的Socket
-		-t     # 显示TCP连接
-		-u     # 显示UDP连接
-		-n     # 显示所有已建立的有效连接
-		netstat -anlp           # 查看链接
-		netstat –r              # 查看路由表
+<h5 id="netstat">netstat</h5> 
 
+>性能消耗大，可以用ss 取代。
+
+```
+	-a     # 显示所有连接中的Socket
+	-t     # 显示TCP连接
+	-u     # 显示UDP连接
+	-n     # 显示所有已建立的有效连接
+	netstat -anlp           # 查看链接
+	netstat –r              # 查看路由表
+```
 
 并发数查看
 
@@ -669,10 +712,197 @@ systemctl status  mysql.service   # redhat 7.X
 ```
 
 
+<h5 id="ssh">ssh</h5> 
+
+
+		ssh -p 22 user@192.168.1.209                            # 从linux ssh登录另一台linux 
+		ssh -p 22 root@192.168.1.209 CMD                        # 利用ssh操作远程主机
+		scp -P 22 文件 root@ip:/目录                            # 把本地文件拷贝到远程主机
+		sshpass -p '密码' ssh -n root@$IP "echo hello"          # 指定密码远程操作
+		ssh -o StrictHostKeyChecking=no $IP                     # ssh连接不提示yes
+		ssh -t "su -"                                           # 指定伪终端 客户端以交互模式工作
+		scp root@192.168.1.209:远程目录 本地目录                # 把远程指定文件拷贝到本地
+		ssh -N -L2001:remotehost:80 user@somemachine            # 用SSH创建端口转发通道
+		ssh -t host_A ssh host_B                                # 嵌套使用SSH
+		ssh -t -p 22 $user@$Ip /bin/su - root -c {$Cmd};        # 远程su执行命令 Cmd="\"/sbin/ifconfig eth0\""
+		ssh-keygen -t rsa                                       # 生成密钥
+		ssh-copy-id -i xuesong@10.10.10.133                     # 传送key
+		vi $HOME/.ssh/authorized_keys                           # 公钥存放位置
+		sshfs name@server:/path/to/folder /path/to/mount/point  # 通过ssh挂载远程主机上的文件夹
+		fusermount -u /path/to/mount/point                      # 卸载ssh挂载的目录
+		ssh user@host cat /path/to/remotefile | diff /path/to/localfile -                # 用DIFF对比远程文件跟本地文件
+		su - user -c "ssh user@192.168.1.1 \"echo -e aa |mail -s test mail@163.com\""    # 切换用户登录远程发送邮件
 
 
 
+* 解决ssh链接慢{
 
+		sed -i 's/GSSAPIAuthentication yes/GSSAPIAuthentication no/' /etc/ssh/sshd_config
+		sed -i '/#UseDNS yes/a\UseDNS no' /etc/ssh/sshd_config
+		/etc/init.d/sshd restart
+
+
+
+<h5 id="nmap">nmap</h5> 
+
+		nmap -PT 192.168.1.1-111             # 先ping在扫描主机开放端口
+		nmap -O 192.168.1.1                  # 扫描出系统内核版本
+		nmap -sV 192.168.1.1-111             # 扫描端口的软件版本
+		nmap -sS 192.168.1.1-111             # 半开扫描(通常不会记录日志)
+		nmap -P0 192.168.1.1-111             # 不ping直接扫描
+		nmap -d 192.168.1.1-111              # 详细信息
+		nmap -D 192.168.1.1-111              # 无法找出真正扫描主机(隐藏IP)
+		nmap -p 20-30,139,60000-             # 端口范围  表示：扫描20到30号端口，139号端口以及所有大于60000的端口
+		nmap -P0 -sV -O -v 192.168.30.251    # 组合扫描(不ping、软件版本、内核版本、详细信息)
+		
+		# 不支持windows的扫描(可用于判断是否是windows)
+		nmap -sF 192.168.1.1-111
+		nmap -sX 192.168.1.1-111
+		nmap -sN 192.168.1.1-111
+
+<h5 id="disk">disk</h5> 
+
+```	
+	df -Ph                                # 查看硬盘容量
+	df -T                                 # 查看磁盘分区格式
+	df -i                                 # 查看inode节点   如果inode用满后无法创建文件
+	du -h 目录                            # 检测目录下所有文件大小
+	du -sh *                              # 显示当前目录中子目录的大小
+	iostat -x                             # 查看磁盘io状态
+	mount                                 # 查看分区挂载情况
+	fdisk -l                              # 查看磁盘分区状态
+	fdisk /dev/hda3                       # 分区 
+	mkfs -t ext3  /dev/hda3               # 格式化分区
+	fsck -y /dev/sda6                     # 对文件系统修复
+	lsof |grep delete                     # 释放进程占用磁盘空间  列出进程后，查看文件是否存在，不存在则kill掉此进程
+	tmpwatch -afv 3                       # 删除3小时内的临时文件
+	cat /proc/filesystems                 # 查看当前系统支持文件系统
+	mount -o remount,rw /                 # 修改只读文件系统为读写
+	smartctl -H /dev/sda                  # 检测硬盘状态
+	smartctl -i /dev/sda                  # 检测硬盘信息
+	smartctl -a /dev/sda                  # 检测所有信息
+	e2label /dev/sda5                     # 查看卷标
+	e2label /dev/sda5 new-label           # 创建卷标
+	ntfslabel -v /dev/sda8 new-label      # NTFS添加卷标
+	tune2fs -j /dev/sda                   # ext2分区转ext3分区
+	mke2fs -b 2048 /dev/sda5              # 指定索引块大小
+	dumpe2fs -h /dev/sda5                 # 查看超级块的信息
+	mount -t iso9660 /dev/dvd  /mnt       # 挂载光驱
+	mount -t ntfs-3g /dev/sdc1 /media/yidong        # 挂载ntfs硬盘
+	mount -t nfs 10.0.0.3:/opt/images/  /data/img   # 挂载nfs
+	mount -o loop  /software/rhel4.6.iso   /mnt/    # 挂载镜像文件
+```	
+
+
+* 新硬盘挂载
+
+```
+		fdisk /dev/sdc 
+		p	#  打印分区
+		d 	#  删除分区
+		n	#  创建分区，（一块硬盘最多4个主分区，扩展占一个主分区位置。p主分区 e扩展）
+		w	#  保存退出
+		mkfs -t ext3 -L 卷标  /dev/sdc1		# 格式化相应分区
+		mount /dev/sdc1  /mnt		# 挂载
+		vi /etc/fstab               # 添加开机挂载分区
+		LABEL=/data            /data                   ext3    defaults        1 2      # 用卷标挂载
+		/dev/sdb1              /data4                  ext3    defaults        1 2      # 用真实分区挂载
+		/dev/sdb2              /data4                  ext3    noatime,defaults        1 2
+```
+
+>		第一个数字"1"该选项被"dump"命令使用来检查一个文件系统应该以多快频率进行转储，若不需要转储就设置该字段为0
+		第二个数字"2"该字段被fsck命令用来决定在启动时需要被扫描的文件系统的顺序，根文件系统"/"对应该字段的值应该为1，其他文件系统应该为2。若该文件系统无需在启动时扫描则设置该字段为0
+		当以 noatime 选项加载（mount）文件系统时，对文件的读取不会更新文件属性中的atime信息。设置noatime的重要性是消除了文件系统对文件的写操作，文件只是简单地被系统读取。由于写操作相对读来说要更消耗系统资源，所以这样设置可以明显提高服务器的性能.wtime信息仍然有效，任何时候文件被写，该信息仍被更新。
+
+<h5 id="xfs">xfs挂载</h5> 
+
+```
+yum install xfsprogs.x86_64 -y
+mkdir /data
+mkfs.xfs -f /dev/sdb
+mount /dev/sdb /data
+echo "mount /dev/sdb /data" >> /etc/rc.local
+```
+
+<h5 id="nfs">nfs挂载</h5> 
+
+
+服务器端
+
+1. 启动的服务
+
+```
+service portmap start 				# 在5.x系统中
+service rpcbind start 				# 在6.x系统中
+```
+
+2. 配置文件
+
+```
+vim /etc/exports
+/data/www-root/img8/ 10.13.81.107(rw,sync,no_root_squash)
+service nfs reload
+```
+
+客户端
+
+```
+service portmap start （不然会报io error）  5.X
+service rpcbind restart                      6.X
+mount -t nfs smc@10.13.81.130:/data/log/scribelog /opt/scribelog
+
+echo "mount -t nfs smc@10.13.81.130:/data/log/scribelog /opt/scribelog" >> /etc/rc.local
+```
+
+
+
+<h5 id="raid">raid</h5> 
+
+```
+		raid0至少2块硬盘.吞吐量大,性能好,同时读写,但损坏一个就完蛋    
+		raid1至少2块硬盘.相当镜像,一个存储,一个备份.安全性比较高.但是性能比0弱
+		raid5至少3块硬盘.分别存储校验信息和数据，坏了一个根据校验信息能恢复
+		raid6至少4块硬盘.两个独立的奇偶系统,可坏两块磁盘,写性能非常差
+```
+
+
+<h5 id="user">user</h5> 
+
+	users                   # 显示所有的登录用户
+	groups                  # 列出当前用户和他所属的组
+	who -q                  # 显示所有的登录用户
+	groupadd                # 添加组
+	useradd user            # 建立用户
+	passwd 用户             # 修改密码
+	userdel -r              # 删除帐号及家目录
+	chown -R user:group     # 修改目录拥有者(R递归)
+	chown y\.li:mysql       # 修改所有者用户中包含点"."
+	umask                   # 设置用户文件和目录的文件创建缺省屏蔽值
+	chgrp                   # 修改用户组
+	finger                  # 查找用户显示信息
+	echo "xuesong" | passwd user --stdin       # 非交互修改密码
+	useradd -g www -M  -s /sbin/nologin  www   # 指定组并不允许登录的用户,nologin允许使用服务
+	useradd -g www -M  -s /bin/false  www      # 指定组并不允许登录的用户,false最为严格
+	usermod -l 新用户名 老用户名               # 修改用户名
+	usermod -g user group                      # 修改用户所属组
+	usermod -d 目录 -m 用户                    # 修改用户家目录
+	usermod -G group user                      # 将用户添加到附加组
+	gpasswd -d user group                      # 从组中删除用户
+	su - user -c " #命令1; "                   # 切换用户执行
+	
+* 恢复密码
+
+		即进入单用户模式: 在linux出现grub后，在安装的系统上面按"e"，然后出现grub的配置文件，按键盘移动光标到第二行"Ker……"，再按"e"，然后在这一行的结尾加上：空格 single或者空格1回车，然后按"b"重启，就进入了"单用户模式"
+
+	
+* 特殊权限
+
+		s或 S （SUID）：对应数值4
+		s或 S （SGID）：对应数值2
+		t或 T ：对应数值1
+		大S：代表拥有root权限，但是没有执行权限
+		小s：拥有特权且拥有执行权限，这个文件可以访问系统任何root用户可以访问的资源
+		T或T（Sticky）：/tmp和 /var/tmp目录供所有用户暂时存取文件，亦即每位用户皆拥有完整的权限进入该目录，去浏览、删除和移动文件
 
 
 
