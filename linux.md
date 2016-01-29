@@ -1,3 +1,5 @@
+<h5 id="top">顶端</h5> 
+
 
 [开机启动脚本顺序](#start) |[系统信息](#syscinfo)| [系统命令](#syscmd)
 
@@ -323,3 +325,26 @@
 		vi /etc/selinux/config         # selinux配置文件
 		SELINUX=enfoceing              # 关闭selinux 把其修改为  SELINUX=disabled
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[top](#top)
