@@ -1,11 +1,18 @@
 <h5 id="top">顶端</h5> 
 
+<font color="red">This is some text!</font>
+
 
 [开机启动脚本顺序](#start) |[系统信息](#syscinfo)|[硬件信息](#hardinfo)| [系统命令](#syscmd)
 
 [vim](#vim) | [终端快捷键](#hotkey)
 
 [进程](#process)|[rpm](#rpm)|[yum](#yum)|[history](#history)|[日志](#log)|[selinux](#selinux)|[crontab](#crontab)
+
+[find](#find) |[sort](#sort)|[解压](#tar)
+
+[sudo](#sodu)|[ulimit](#ulimit) | [data](#data)
+
 
 <h5 id="hotkey">终端快捷键</h5> 
 
@@ -372,6 +379,165 @@
 		service crond start|stop|restart                    # 启动自动周期性服务
 
 
+<h5 id="find">find</h5> 
+
+>
+* linux文件无创建时间
+* Access 使用时间  
+* Modify 内容修改时间  
+* Change 状态改变时间(权限、属主)
+* 时间默认以24小时为单位,当前时间到向前24小时为0天,向前48-72小时为2天
+* -and 且 匹配两个条件 参数可以确定时间范围 -mtime +2 -and -mtime -4
+-or 或 匹配任意一个条件
+
+		find /etc -name http         # 按文件名查找
+		find . -type f               # 查找某一类型文件
+		find / -perm                 # 按照文件权限查找
+		find / -user                 # 按照文件属主查找
+		find / -group                # 按照文件所属的组来查找文件
+		find / -atime -n             # 文件使用时间在N天以内
+		find / -atime +n             # 文件使用时间在N天以前
+		find / -mtime -n             # 文件内容改变时间在N天以内
+		find / -mtime +n             # 文件内容改变时间在N天以前
+		find / -ctime +n             # 文件状态改变时间在N天前
+		find / -ctime -n             # 文件状态改变时间在N天内
+		find / -size +1000000c -print                           # 查找文件长度大于1M字节的文件
+		find /etc -name "passwd*" -exec grep "xuesong" {} \;    # 按名字查找文件传递给-exec后命令
+		find . -name 't*' -exec basename {} \;                  # 查找文件名,不取路径
+		find . -type f -name "err*" -exec  rename err ERR {} \; # 批量改名(查找err 替换为 ERR {}文件
+		find 路径 -name *name1* -or -name *name2*               # 查找任意一个关键字
+
+
+
+<h5 id="sort">sort</h5> 
+
+		-t  # 指定排序时所用的栏位分隔字符
+		-n  # 依照数值的大小排序
+		-r  # 以相反的顺序来排序
+		-f  # 排序时，将小写字母视为大写字母
+		-d  # 排序时，处理英文字母、数字及空格字符外，忽略其他的字符
+		-c  # 检查文件是否已经按照顺序排序
+		-b  # 忽略每行前面开始处的空格字符
+		-M  # 前面3个字母依照月份的缩写进行排序
+		-k  # 指定域
+		-m  # 将几个排序好的文件进行合并
+		+<起始栏位>-<结束栏位>   # 以指定的栏位来排序，范围由起始栏位到结束栏位的前一栏位。
+		-o  # 将排序后的结果存入指定的文
+		n   # 表示进行排序
+		r   # 表示逆序
+
+		sort -n               # 按数字排序
+		sort -nr              # 按数字倒叙
+		sort -u               # 过滤重复行
+		sort -m a.txt c.txt   # 将两个文件内容整合到一起
+		sort -n -t' ' -k 2 -k 3 a.txt     # 第二域相同，将从第三域进行升降处理
+		sort -n -t':' -k 3r a.txt         # 以:为分割域的第三域进行倒叙排列
+		sort -k 1.3 a.txt                 # 从第三个字母起进行排序
+		sort -t" " -k 2n -u  a.txt        # 以第二域进行排序，如果遇到重复的，就删除
+	netstat -anlp |grep 2181  |awk '{print $5}' |awk -F: '{print $1}' |sort |uniq -c | sort -rn  |head  # 查看zookeeper 链接数
+
+
+<h5 id="tar">归档解压缩</h5> 
+
+>
+* v  #显示详情
+* z  #压缩
+
+		file 文件     # 查看文件类型
+		tar zxvpf gz.tar.gz -C 放到指定目录 包中的目录       # 解包tar.gz 不指定目录则全解压
+		tar zcvpf /$path/gz.tar.gz * # 打包gz 注意*最好用相对路径
+		tar zcf /$path/gz.tar.gz *   # 打包正确不提示
+		tar ztvpf gz.tar.gz          # 查看gz
+		tar xvf 1.tar -C 目录        # 解包tar
+		tar -cvf 1.tar *             # 打包tar
+		tar tvf 1.tar                # 查看tar
+		tar -rvf 1.tar 文件名        # 给tar追加文件
+		tar --exclude=/home/dmtsai -zcvf myfile.tar.gz /home/* /etc      # 打包/home, /etc ，但排除 /home/dmtsai
+		tar -N "2005/06/01" -zcvf home.tar.gz /home      # 在 /home 当中，比 2005/06/01 新的文件才备份
+		tar -zcvfh home.tar.gz /home                     # 打包目录中包括连接目录
+		zgrep 字符 1.gz              # 查看压缩包中文件字符行
+		bzip2  -dv 1.tar.bz2         # 解压bzip2
+		bzip2 -v 1.tar               # bzip2压缩
+		bzcat                        # 查看bzip2
+		gzip A                       # 直接压缩文件 # 压缩后源文件消失
+		gunzip A.gz                  # 直接解压文件 # 解压后源文件消失
+		gzip -dv 1.tar.gz            # 解压gzip到tar
+		gzip -v 1.tar                # 压缩tar到gz
+		unzip zip.zip                # 解压zip
+		zip zip.zip *                # 压缩zip
+		# rar3.6下载:  http://www.rarsoft.com/rar/rarlinux-3.6.0.tar.gz
+		rar a rar.rar *.jpg          # 压缩文件为rar包
+		unrar x rar.rar              # 解压rar包
+		7z a 7z.7z *                 # 7z压缩
+		7z e 7z.7z                   # 7z解压
+
+
+
+<h5 id="date">date</h5> 
+
+		date -s 20091112                     # 设日期
+		date -s 18:30:50                     # 设时间
+		date -d "7 days ago" +%Y%m%d         # 7天前日期
+		date -d "5 minute ago" +%H:%M        # 5分钟前时间
+		date -d "1 month ago" +%Y%m%d        # 一个月前
+		date +%Y-%m-%d -d '20110902'         # 日期格式转换
+		date +%Y-%m-%d_%X                    # 日期和时间
+		date +%N                             # 纳秒
+		date -d "2012-08-13 14:00:23" +%s    # 换算成秒计算(1970年至今的秒数)
+		date -d "@1363867952" +%Y-%m-%d-%T   # 将时间戳换算成日期
+		date -d "1970-01-01 UTC 1363867952 seconds" +%Y-%m-%d-%T  # 将时间戳换算成日期
+		date -d "`awk -F. '{print $1}' /proc/uptime` second ago" +"%Y-%m-%d %H:%M:%S"    # 格式化系统启动时间(多少秒前)
+
+
+<h5 id="ulimit">最大连接数</h5> 
+
+>在linux kernel 2.6.25之前通过`ulimit -n(setrlimit(RLIMIT_NOFILE))`设置每个进程的最大打开文件句柄数不能超过NR_OPEN (1024*1024),也就是100w(除非重新编译内核)
+
+		ulimit -SHn 65535  # 修改最大打开文件数(等同最大连接数)
+		ulimit -a          # 查看
+		
+		/etc/security/limits.conf         # 进程最大打开文件数
+		# nofile 可以被理解为是文件句柄数 文件描述符 还有socket数
+		* soft nofile 65535
+		* hard nofile 65535
+		# 最大进程数
+		* soft nproc 65535
+		* hard nproc 65535
+
+		# 如果/etc/security/limits.d/有配置文件，将会覆盖/etc/security/limits.conf里的配置
+		# 即/etc/security/limits.d/的配置文件里就不要有同样的参量设置
+		/etc/security/limits.d/90-nproc.conf    # centos6.3的最大进程数文件
+		* soft nproc 65535       
+		* hard nproc 65535
+
+
+> 某些情况应用比较变态，系统资源不够用，文件句柄数不够，要开到500w的时候,一般来说限制就是1024*1024 大约100万 ，大于这个数值就没法设置了
+
+```
+$ ulimit -n 22222222
+-bash: ulimit: open files: cannot modify limit: Operation not permitted
+```
+
+> kernel 2.6.25之后，内核导出了一个sys接口可以修改这个最大值(/proc/sys/fs /nr_open).
+解决方法, 写到.bash_profile  里面
+
+```
+echo 20000500 > /proc/sys/fs/nr_open
+ulimit -n 5000000
+```
+
+
+<h5 id="sudo">sudo</h5> 
+
+>visudo     # sudo命令权限添加
+
+* 用户  别名(可用all)=NOPASSWD:命令1，命令2
+
+		wangming linuxfan=NOPASSWD:/sbin/apache start,/sbin/apache restart
+		UserName ALL=(ALL) ALL
+		peterli        ALL=(ALL)       NOPASSWD:/sbin/service
+		Defaults requiretty             # sudo不允许后台运行,注释此行既允许
+		Defaults !visiblepw             # sudo不允许远程,去掉!既允许
 
 
 
