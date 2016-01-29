@@ -13,7 +13,7 @@
 
 [sudo](#sudo)|[ulimit](#ulimit) | [date](#date)
 
-**需要详细整理**
+*需要详细整理*
 
 [iptables](iptables)
 
