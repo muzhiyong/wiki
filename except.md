@@ -57,9 +57,8 @@ expect交互
 				}
 				'
 
-			}
 
-			ssh执行命令操作{
+* ssh执行命令操作
 			
 				/usr/bin/expect -c "
 				proc jiaohu {} {
@@ -176,9 +175,9 @@ expect交互
 				"
 				state=`echo $?`
 
-			}
+		
 
-			交互双引号引用较长变量{
+* 交互双引号引用较长变量
 			
 				#!/bin/bash
 				RemoteUser=xuesong12
@@ -201,9 +200,9 @@ expect交互
 				}
 				"
 
-			}
 
-			telnet交互{
+
+* telnet交互
 			
 				#!/bin/bash
 				Ip="10.0.1.53"
@@ -227,9 +226,10 @@ expect交互
 				"
 				echo $?
 
-			}
 
-			模拟ssh登录{
+
+* 模拟ssh登录
+
 				#好处:可加载环境变量
 
 				#!/bin/bash
@@ -301,5 +301,3 @@ expect交互
 				state=`echo $?`
 
 			}
-
-		}
