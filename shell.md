@@ -1,4 +1,4 @@
-[find](#find) |[sort](#sort)|[解压](#tar)
+[regex](regex)
 
 <font color="red">This is some text!</font>
 
