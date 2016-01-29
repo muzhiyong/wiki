@@ -1,10 +1,19 @@
 <h5 id="top">顶端</h5> 
 
 
-[开机启动脚本顺序](#start) |[系统信息](#syscinfo)| [系统命令](#syscmd)
+[开机启动脚本顺序](#start) |[系统信息](#syscinfo)|[硬件信息](#hardinfo)| [系统命令](#syscmd)
 
-[vim](#vim) |[进程](#process)|[rpm](#rpm)|[yum](#yum)|[history](#history)|[日志](#log)|[selinux](#selinux)
+[vim](#vim) | [终端快捷键](#hotkey)
 
+[进程](#process)|[rpm](#rpm)|[yum](#yum)|[history](#history)|[日志](#log)|[selinux](#selinux)|[crontab](#crontab)
+
+<h5 id="hotkey">终端快捷键</h5> 
+
+		Ctrl+A        　    # 行前
+		Ctrl+E        　    # 行尾
+		Ctrl+S        　    # 终端锁屏
+		Ctrl+Q        　　  # 解锁屏
+		Ctrl+D      　　    # 退出
 
 <h5 id="start">开机启动脚本顺序</h5> 
 
@@ -27,9 +36,31 @@
 		whoami                # 查看当前用户名
 		logname               # 查看初始登陆用户名
 		uptime                # 查看服务器启动时间,系统状态
-		sar -n DEV 1 10       # 查看网卡网速流量
+		sar -n DEV 1 10       # 查看网卡网速流量,查看LAN网卡的流量时 RX为上行流量TX为下行流量
 		dmesg                 # 显示开机信息
 		lsmod	              # 查看内核模块
+
+
+<h5 id="hardinfo">硬件信息</h5> 
+
+		more /proc/cpuinfo                                       # 查看cpu信息
+		cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c    # 查看cpu型号和逻辑核心数
+		getconf LONG_BIT                                         # cpu运行的位数
+		cat /proc/cpuinfo | grep physical | uniq -c              # 物理cpu个数
+		cat /proc/cpuinfo | grep flags | grep ' lm ' | wc -l     # 结果大于0支持64位
+		cat /proc/cpuinfo|grep flags                             # 查看cpu是否支持虚拟化   pae支持半虚拟化  IntelVT 支持全虚拟化
+		more /proc/meminfo                                       # 查看内存信息
+		dmidecode                                                # 查看全面硬件信息
+		dmidecode | grep "Product Name"                          # 查看服务器型号
+		dmidecode | grep -P -A5 "Memory\s+Device" | grep Size | grep -v Range       # 查看内存插槽
+		cat /proc/mdstat                                         # 查看软raid信息
+		cat /proc/scsi/scsi                                      # 查看Dell硬raid信息(IBM、HP需要官方检测工具)
+		lspci                                                    # 查看硬件信息
+		lspci|grep RAID                                          # 查看是否支持raid
+		lspci -vvv |grep Ethernet                                # 查看网卡型号
+		lspci -vvv |grep Kernel|grep driver                      # 查看驱动模块
+		modinfo tg2                                              # 查看驱动版本(驱动模块)
+		ethtool -i em1       
 
 <h5 id="syscmd">一般系统命令</h5> 
 	write user                  # 给指定用户发消息
@@ -324,6 +355,22 @@
 		semanage port -a -t http_port_t -p tcp 8000  # 在selinux中注册端口类型
 		vi /etc/selinux/config         # selinux配置文件
 		SELINUX=enfoceing              # 关闭selinux 把其修改为  SELINUX=disabled
+
+<h5 id="crontab">定时任务</h5> 
+
+>
+* 如果发现您的系统里没有这个命令,请安装下面两个软件包 vixie-cron,crontabs
+* /var/spool/cron,每个用户一个文件,可以直接编辑,用puppet等进行管理
+	
+		crontab -e               # 编辑周期任务
+		#分钟  小时    天  月  星期   命令或脚本
+		1,30  1-13/2    *   *   *      命令或脚本  >> file.log 2>&1   # 每天的1点到13点每两个小时的1分钟和30分钟时执行
+		echo "40 7 * * 2 /root/sh">>/var/spool/cron/root    # 直接将命令写入周期任务
+		crontab -l                                          # 查看自动周期性任务
+		crontab -r                                          # 删除自动周期性任务
+		cron.deny和cron.allow                               # 禁止或允许用户使用周期任务
+		service crond start|stop|restart                    # 启动自动周期性服务
+
 
 
 
