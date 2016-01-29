@@ -1,11 +1,12 @@
-		expect交互{
+expect交互
 
+>
 			exp_continue         # 多个spawn命令时并行
 			interact             # 执行完成后保持交互状态，把控制权交给控制台
 			expect "password:"   # 判断关键字符
 			send "passwd\r"      # 执行交互动作，与手工输入密码的动作等效。字符串结尾加"\r"
 
-			ssh后sudo{
+* ssh后sudo
 
 				#!/bin/bash
 				#sudo注释下行允许后台运行
