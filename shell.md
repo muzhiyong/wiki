@@ -8,6 +8,7 @@
 
 [if](#if)|[for](#for)|[while](#while) | [case](#case)|[until](#until)
 
+[except](except)
 
 [example](shellexample)
 
