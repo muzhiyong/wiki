@@ -1,4 +1,4 @@
-[常见错误](#error)
+[常见错误](#errors)
 
 
 <h5 id="rpm">rpm</h5> 
@@ -15,7 +15,7 @@
 		rpm -qc                # 软件包配置文档
 		rpm --import  /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6     # 导入rpm的签名信息
 
-<h5 id="error">error</h5> 
+<h5 id="errors">errors</h5> 
 
 ```
 rpmdb: unable to join the environment
