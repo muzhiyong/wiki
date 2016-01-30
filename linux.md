@@ -1,30 +1,69 @@
 <h5 id="top">顶端</h5> 
 
-<font color="red">This is some text!</font>
 
-[开机启动脚本顺序](#start) ------ [系统信息](#sysinfo)  ------ [硬件信息](#hardinfo)  ------ [系统命令](#syscmd)
+<font color="red">目录</font>
 
 
-[开机启动脚本顺序](#start) |[系统信息](#sysinfo)|[硬件信息](#hardinfo)| [系统命令](#syscmd)
 
-[vim](#vim) | [终端快捷键](#hotkey)|[ssh](#ssh)
+通用
+[系统命令](#syscmd)
+[vim](#vim) 
+[ssh](#ssh)
+[终端快捷键](#hotkey)
+[开机启动脚本顺序](#start)
 
-[rpm](#rpm)|[yum](#yum)|[history](#history)|[日志](#log)|[selinux](#selinux)|[crontab](#crontab)
+系统信息
+[系统信息](#sysinfo) 
+[硬件信息](#hardinfo)
 
-[find](#find) |[sort](#sort)|[解压](#tar)
+系统状态
+[netstat](#netstat)
+[network](#network)
+[disk](#disk)
+[xfs](#xfs)
+[nfs](#nfs)
+[raid](#raid)
+[process](#process)
 
-[sudo](#sudo)|[ulimit](#ulimit) | [date](#date)  |[chkconfig](#chkconfig)
 
-[network](#network)|[tcpdump](#tcpdump)|[netstat](#netstat)
+软件管理
+[rpm](#rpm)
+[yum](#yum)
 
-[disk](#disk) |[xfs](#xfs)|[nfs](#nfs)|[raid](#raid)
+日志
+[history](#history)
+[日志](#log)
 
+操作
+[find](#find)
+[sort](#sort)
+[解压](#tar)
+
+用户
 [user](#user)
+[sudo](#sudo)
+
+内核
+[ulimit](#ulimit) 
+
+安全
+[iptables](iptables)|
+[selinux](#selinux)
+
+服务管理
+[chkconfig](#chkconfig)
+[crontab](#crontab)
+
+系统设置
+[date](#date)
+[ntp](#ntp) --------
+
+故障排查
+[tcpdump](#tcpdump)
+[dmesg](#dmesg)   ------
 
 
-*需要详细整理*
 
-[iptables](iptables)|[进程](#process)
 
 <h5 id="hotkey">终端快捷键</h5> 
 
