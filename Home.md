@@ -9,5 +9,7 @@
 进一步整理
 [apache](apache)| [mysql](mysql) | [nginx](nginx)| [php](php) |[lvs](lvs)
 
+[zookeeper](zookeeper)
+
 ###[mac](mac)
 
