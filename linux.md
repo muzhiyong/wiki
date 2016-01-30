@@ -52,7 +52,7 @@
 
 服务管理
 [chkconfig](#chkconfig)
-[crontab](#crontab)
+[crontab](crontab)
 
 系统设置
 [date](#date)
@@ -361,20 +361,7 @@ rc.local
 		vi /etc/selinux/config         # selinux配置文件
 		SELINUX=enfoceing              # 关闭selinux 把其修改为  SELINUX=disabled
 
-<h5 id="crontab">定时任务</h5> 
 
->
-* 如果发现您的系统里没有这个命令,请安装下面两个软件包 vixie-cron,crontabs
-* /var/spool/cron,每个用户一个文件,可以直接编辑,用puppet等进行管理
-	
-		crontab -e               # 编辑周期任务
-		#分钟  小时    天  月  星期   命令或脚本
-		1,30  1-13/2    *   *   *      命令或脚本  >> file.log 2>&1   # 每天的1点到13点每两个小时的1分钟和30分钟时执行
-		echo "40 7 * * 2 /root/sh">>/var/spool/cron/root    # 直接将命令写入周期任务
-		crontab -l                                          # 查看自动周期性任务
-		crontab -r                                          # 删除自动周期性任务
-		cron.deny和cron.allow                               # 禁止或允许用户使用周期任务
-		service crond start|stop|restart                    # 启动自动周期性服务
 
 
 <h5 id="find">find</h5> 
