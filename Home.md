@@ -13,3 +13,8 @@
 
 ###[mac](mac)
 
+
+- 开发语言带的简易模块
+    - python ：$ python -m SimpleHTTPServer
+    - php: $ php -S localhost:8000
+    - ruby: $ ruby -run -e httpd . -p 5000
