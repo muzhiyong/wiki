@@ -1,3 +1,32 @@
+
+cacti 中如果添加需要127.0.0.1 为ip address的主机时，会报错
+搞定方法如下
+
+vi add_device.php
+注释掉验证，//就是注释。
+
+```
+    /* process ip */
+    if (isset($addresses[$ip])) {
+        //db_execute("update host set description = '$description' where id = " . $addresses[$ip]);
+        echo "ERROR: This IP already exists in the database ($ip) device-id: (" . $addresses[$ip] . ")\n";
+        exit(1);
+    }
+
+
+ 变成全部注释掉
+
+    /* process ip */
+    /* disable the ip check
+    if (isset($addresses[$ip])) {
+        //db_execute("update host set description = '$description' where id = " . $addresses[$ip]);
+        echo "ERROR: This IP already exists in the database ($ip) device-id: (" . $addresses[$ip] . ")\n";
+        exit(1);
+    }
+    */
+
+```
+
 snmp
 		
 
