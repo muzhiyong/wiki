@@ -73,7 +73,9 @@
 		Ctrl+S        　    # 终端锁屏
 		Ctrl+Q        　　  # 解锁屏
 		Ctrl+D      　　    # 退出
+
 * mac 中
+
 		contrl+A      　    # 行前
 		contrl+e      　    # 行尾
 		contrl+r      　    # 搜索history
