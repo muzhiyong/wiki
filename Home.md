@@ -12,7 +12,12 @@
 [zookeeper](zookeeper) 
 
 [leveldb](leveldb) | [kestrel](kestrel) |[twemcache](twemcache) |[redis](redis)
- 
+
+
+###工具类软件
+[git](git) | [svn](svn) |[maven](maven)
+
+[wiki](wiki) | [jira](jira) 
 ###[mac](mac)
 
 
