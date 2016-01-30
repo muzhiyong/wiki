@@ -46,6 +46,7 @@
 			#R的含义是redirect，即重定向，该请求不会再被apache交给后端处理，而是直接返回给浏览器进行重定向跳转。301是返回的http状态码，具体可以参考http rfc文档，跳转都是3XX。
 			#L是last，即最后一个rewrite规则，如果请求被此规则命中，将不会继续再向下匹配其他规则。	
 
-		}
 
-	}
+
+	./bin/httpd -M                               # 查看httpd加载模块
+	httpd -t -D DUMP_MODULES                     # rpm包httpd查看加载模块
