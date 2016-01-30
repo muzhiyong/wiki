@@ -13,13 +13,14 @@
 
 [leveldb](leveldb) | [kestrel](kestrel) |[twemcache](twemcache) |[redis](redis)
 
-####存储
+#####存储
 [nsq](nsq)
 
-###工具类软件
-[git](git) | [svn](svn) |[maven](maven)
+#####工具类软件
+[git](git) | [svn](svn) |[maven](maven)|[wiki](wiki) | [jira](jira) 
 
-[wiki](wiki) | [jira](jira) 
+#####监控
+[nagios](nagios)|[cacti](cacit)|[zabbix](zabbix)
 
 ###[mac](mac)
 
