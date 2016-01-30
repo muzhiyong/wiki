@@ -2,6 +2,8 @@
 
 <font color="red">This is some text!</font>
 
+[开机启动脚本顺序](#start) ------ [系统信息](#sysinfo)  ------ [硬件信息](#hardinfo)  ------ [系统命令](#syscmd)
+
 
 [开机启动脚本顺序](#start) |[系统信息](#sysinfo)|[硬件信息](#hardinfo)| [系统命令](#syscmd)
 
