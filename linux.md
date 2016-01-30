@@ -27,8 +27,8 @@
 
 
 软件管理
-[rpm](#rpm)
-[yum](#yum)
+[rpm](rpm)
+[yum](yum)
 
 日志
 [history](#history)
