@@ -13,6 +13,8 @@
 
 [leveldb](leveldb) | [kestrel](kestrel) |[twemcache](twemcache) |[redis](redis)
 
+####存储
+[nsq](nsq)
 
 ###工具类软件
 [git](git) | [svn](svn) |[maven](maven)
