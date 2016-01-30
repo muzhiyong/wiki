@@ -26,3 +26,11 @@
     - python ：$ python -m SimpleHTTPServer
     - php: $ php -S localhost:8000
     - ruby: $ ruby -run -e httpd . -p 5000
+
+切换用户启动程序
+
+`su rabbitmq -s /bin/sh -c /usr/lib/rabbitmq/bin/rabbitmq-server`
+
+nohup  远程启动的方法
+
+`ssh $ip "cd /opt/nsq ; nohup ./start_nsqd.sh >/opt/nsq/nohup.out < /dev/null 2>&1"`
