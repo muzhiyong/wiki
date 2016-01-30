@@ -1,10 +1,9 @@
 *[markdown语法参考](markdown)*  |  *[sample](samplemarkdown)*
+[python](python)  | [django](django) | [w3c](w3c)
 
-#####[python](python)  | [django](django) | [w3c](w3c)
+[java](java)
 
-#####[java](java)
-
-#####[linux](linux) | [shell](shell)
+[linux](linux) | [shell](shell)
 
 进一步整理
 [apache](apache)| [mysql](mysql) | [nginx](nginx)| [php](php) |[lvs](lvs)
@@ -13,20 +12,20 @@
 
 [leveldb](leveldb) | [kestrel](kestrel) |[twemcache](twemcache) |[redis](redis)
 
-#####数据库
+数据库
 [mysql](mysql)|[mongodb](mongodb)
 
 
-#####存储
+存储
 [nsq](nsq)
 
-#####工具类软件
+工具类软件
 [git](git) | [svn](svn) |[maven](maven)|[wiki](wiki) | [jira](jira) 
 
-#####监控
+监控
 [nagios](nagios)|[cacti](cacit)|[zabbix](zabbix)
 
-#####[mac](mac)
+[mac](mac)
 
 
 - 开发语言带的简易模块
