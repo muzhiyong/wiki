@@ -64,18 +64,18 @@
 
 			if [ $a == $b ]
 			then
-				echo "等于"
+			    echo "等于"
 			else
-				echo "不等于"
+			    echo "不等于"
 			fi
 
 		
 <h5 id="case">case</h5> 
 
 			case $xs in
-			0) echo "0" ;;
-			1) echo "1" ;;
-			*) echo "其他" ;;
+			    0) echo "0" ;;
+			    1) echo "1" ;;
+			    *) echo "其他" ;;
 			esac
 
 
@@ -92,18 +92,18 @@
 			num=1
 			while [ $num -lt 10 ]
 			do
-			echo $num
-			((num=$num+2))
+			    echo $num
+			    ((num=$num+2))
 			done
 			###########################
 			grep a  a.txt | while read a
 			do
-				echo $a
+			    echo $a
 			done
 			###########################
 			while read a
 			do
-				echo $a
+			    echo $a
 			done < a.txt 
 
 
@@ -114,13 +114,13 @@
 			w=`awk -F ":" '{print $1}' c`
 			for d in $w
 			do
-				$d
+			    $d
 			done
 			
 
 			for ((i=0;i<${#o[*]};i++))
 			do
-			echo ${o[$i]}
+			    echo ${o[$i]}
 			done
 
 
@@ -130,5 +130,5 @@
 			#当command不为0时循环
 			until command	
 			do
-				body
+			    body
 			done
