@@ -11,7 +11,7 @@
 
 [zookeeper](zookeeper) 
 
-[leveldb](leveldb)
+[leveldb](leveldb) | [kestrel](kestrel)
 
 ###[mac](mac)
 
