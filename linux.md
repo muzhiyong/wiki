@@ -880,6 +880,10 @@ echo "mount -t nfs smc@10.13.81.130:/data/log/scribelog /opt/scribelog" >> /etc/
 		T或T（Sticky）：/tmp和 /var/tmp目录供所有用户暂时存取文件，亦即每位用户皆拥有完整的权限进入该目录，去浏览、删除和移动文件
 
 
+<h5 id="at">at</h5> 
+
+		at 5pm + 3 days /bin/ls  # 单次定时任务 指定三天后下午5:00执行/bin/ls
+
 
 
 
