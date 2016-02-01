@@ -8,7 +8,7 @@
 
 [if](#if)|[for](#for)|[while](#while) | [case](#case)|[until](#until)
 
-[xargs](#xargs)
+[xargs](#xargs) | [test](#test)
 
 [except](except)
 
