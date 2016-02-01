@@ -37,7 +37,7 @@
 [文件处理](#file)
 
 
-[异常处理](python_try_excpet)
+[异常处理](python-try-excpet)
 
 
 模块
