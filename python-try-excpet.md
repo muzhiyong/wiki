@@ -98,7 +98,9 @@
         
 捕获异常的方法
 
-* 方法一：捕获所有异常
+
+
+* 捕获所有异常
 
 ```  
     try:  
@@ -108,25 +110,14 @@
         print Exception,":",e
 ```
 
-* 方法二：采用traceback模块查看异常
-
-> 引入python中的traceback模块，跟踪错误，打印出来，并保存在日志中
-
-    import traceback  
-    try:  
-        a=b  
-        b=c  
-    except:  
-        traceback.print_exc()
-        f=open("c:log.txt",'a')  
-        traceback.print_exc(file=f)  
-        f.flush()  
-        f.close()
-
-
-* 方法三：采用sys模块回溯最后的异常
+* 采用sys模块回溯最后的异常
 
 > 引入sys模块
+> sys.exc_info()返回的值是一个元组，
+1. 其中第一个元素，exc_type是异常的对象类型，
+2. exc_value是异常的值，
+3. exc_tb是一个traceback对象，对象中包含出错的行数、位置等数据。
+然后通过print_exception函数对这些异常数据进行整理输出。
 
     import sys  
     try:  
@@ -135,6 +126,136 @@
     except:  
         info=sys.exc_info()  
         print info[0],":",info[1]
+
+
+* 采用traceback模块查看异常
+
+> 引入python中的traceback模块，跟踪错误，打印出来，并保存在日志中
+>traceback.print_exc()函数只是traceback.print_exception()函数的一个简写形式，而它们获取异常相关的数据都是通过sys.exc_info()函数得到的。
+
+    import traceback  
+    try:  
+        a=b  
+        b=c  
+    except:  
+        traceback.print_exc()
+        # traceback.print_exc(file=sys.stdout)  #这么写也可以
+
+        #写到文件里
+        f=open("c:log.txt",'a')  
+        traceback.print_exc(file=f)  
+        f.flush()  
+        f.close()
+
+
+traceback模块提供了extract_tb函数来更加详细的解释traceback对象所包含的数据：
+
+```
+def func(a, b):
+    return a / b
+if __name__ == '__main__':
+    import sys
+    import traceback
+    try:
+        func(1, 0)
+    except:
+        _, _, exc_tb = sys.exc_info()
+        for filename, linenum, funcname, source in traceback.extract_tb(exc_tb):
+        print "%-23s:%s '%s' in %s()" % (filename, linenum, source, funcname)
+```
+
+输出结果：
+
+```
+samchimac:tracebacktest samchi$ python ./teststacktrace.py 
+./teststacktrace.py    :7 'func(1, 0)' in <module>()
+./teststacktrace.py    :2 'return a / b' in func()
+```
+
+* 使用cgitb来简化异常调试
+
+如果平时开发喜欢基于log的方式来调试，那么可能经常去做这样的事情，在log里面发现异常之后，因为信息不足，那么会再去额外加一些debug log来把相关变量的值输出。调试完毕之后再把这些debug log去掉。其实没必要这么麻烦，Python库中提供了cgitb模块来帮助做这些事情，它能够输出异常上下文所有相关变量的信息，不必每次自己再去手动加debug log。
+
+```
+def func(a, b):
+        return a / b
+if __name__ == '__main__':
+        import cgitb
+        cgitb.enable(format='text')
+        import sys
+        import traceback
+        func(1, 0)
+```
+
+运行之后就会得到详细的数据:
+
+```
+A problem occurred in a Python script.  Here is the sequence of
+function calls leading up to the error, in the order they occurred.
+
+ /Users/samchi/Documents/workspace/tracebacktest/teststacktrace.py in <module>()
+    4 	import cgitb
+    5 	cgitb.enable(format='text')
+    6 	import sys
+    7 	import traceback
+    8 	func(1, 0)
+func = <function func>
+
+ /Users/samchi/Documents/workspace/tracebacktest/teststacktrace.py in func(a=1, b=0)
+    2 	return a / b
+    3 if __name__ == '__main__':
+    4 	import cgitb
+    5 	cgitb.enable(format='text')
+    6 	import sys
+a = 1
+b = 0
+```
+
+完全不必再去log.debug("a=%d" % a)了，个人感觉cgitb在线上环境不适合使用，适合在开发的过程中进行调试，非常的方便。
+也许你会问，cgitb为什么会这么屌？能获取这么详细的出错信息？其实它的工作原理同它的使用方式一样的简单，它只是覆盖了默认的sys.excepthook函数，sys.excepthook是一个默认的全局异常拦截器，可以尝试去自行对它修改：
+
+```
+def func(a, b):
+        return a / b
+def my_exception_handler(exc_type, exc_value, exc_tb):
+        print "i caught the exception:", exc_type
+        while exc_tb:
+                print "the line no:", exc_tb.tb_lineno
+                print "the frame locals:", exc_tb.tb_frame.f_locals
+                exc_tb = exc_tb.tb_next
+
+if __name__ == '__main__':
+        import sys
+        sys.excepthook = my_exception_handler
+        import traceback
+        func(1, 0)
+```
+
+输出结果：
+
+```
+i caught the exception: <type 'exceptions.ZeroDivisionError'>
+the line no: 14
+the frame locals: {'my_exception_handler': <function my_exception_handler at 0x100e04aa0>, '__builtins__': <module '__builtin__' (built-in)>, '__file__': './teststacktrace.py', 'traceback': <module 'traceback' from '/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/traceback.pyc'>, '__package__': None, 'sys': <module 'sys' (built-in)>, 'func': <function func at 0x100e04320>, '__name__': '__main__', '__doc__': None}
+the line no: 2
+the frame locals: {'a': 1, 'b': 0}
+```
+
+看到没有？没有什么神奇的东西，只是从stack frame对象中获取的相关变量的值。frame对象中还有很多神奇的属性，就不一一探索了。
+
+* 使用logging模块来记录异常
+
+在使用Java的时候，用log4j记录异常很简单，只要把Exception对象传递给log.
+
+error方法就可以了，但是在Python中就不行了，如果直接传递异常对象给log.error，那么只会在log里面出现一行异常对象的值。
+
+在Python中正确的记录Log方式应该是这样的：
+
+```
+logging.exception(ex)
+logging.error(ex, exc_info=1) # 指名输出栈踪迹, logging.exception的内部也是包了一层此做法
+logging.critical(ex, exc_info=1) # 更加严重的错误级别
+```
 
 * 实例
 
@@ -176,3 +297,4 @@
 		print 'No exception was raised.' 
 
 ```
+
