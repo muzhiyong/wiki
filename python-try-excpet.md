@@ -3,6 +3,7 @@
 
 * 异常说明
 
+```
 	NameError:              # 尝试访问一个未申明的变量
 	ZeroDivisionError:      # 除数为零
 	SyntaxErrot:            # 解释器语法错误
@@ -16,6 +17,7 @@
 	SyntaxError             # 代码语法错误
 	ValueError              # 值错误
 	TypeError               # 传入对象类型与要求不符合
+```
 	
 * 触发异常
 
@@ -136,6 +138,7 @@
 
 * 实例
 
+```
 	class MyException(Exception):   # 继承Exception异常的类,定义自己的异常
 			pass
 	try:                          # 监控这里的异常
@@ -151,9 +154,9 @@
 		   print 'finally' 
 	else:              # 无任何异常 无法和finally同用
 			print 'no Exception'
+```
 
-
-
+```
 	class ShortInputException(Exception):
 		'''A user-defined exception class.'''
 		def __init__(self, length, atleast):
@@ -172,3 +175,4 @@
 	else:
 		print 'No exception was raised.' 
 
+```
