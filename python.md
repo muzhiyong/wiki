@@ -2,37 +2,41 @@
 
 抓取,提炼html元素 pyquery
 
+
 [help](#help)
 [pip](#pip)
 [tab补全](#tab)
 
-#####字符变量
-
+#####基础
 [变量](#bianlian)
 [print](#print)
 [列表](#list)
 [元组](#yuanzu)
 [字典](#zidian)
+[内建函数](#neijianhanshu)
 
 
 #####流程结构
-
 [if](#if)
 [while](#while)
 [for](#for)
 
 
 #####常用方法
-
-[函数](#hanshu)
+[自定义函数](#hanshu)
 [模块](#mokuai)
 [取参数](#qucanshu)
 [对象的使用](#duixiang)
 
+
 #####文件处理
 [文件处理](#file)
 
+
 [异常处理](#yichangchuli)
+
+
+
 <h5 id="help">help</h5>
 
 	import os
@@ -145,6 +149,47 @@
 	ab.values()       # 打印所有值
 	ab.has_key('a')   # 查看键值是否存在
 	ab.items()        # 返回整个字典列表
+
+	
+<h5 id="neijianhanshu">内建函数</h5>
+
+
+	dir(sys)            # 显示对象的属性
+	help(sys)           # 交互式帮助
+	int(obj)            # 转型为整形
+	str(obj)            # 转为字符串
+	len(obj)            # 返回对象或序列长度
+	open(file,mode)     # 打开文件 #mode (r 读,w 写, a追加)
+	range(0,3)          # 返回一个整形列表
+	raw_input("str:")   # 等待用户输入
+	type(obj)           # 返回对象类型
+	abs(-22)            # 绝对值
+	random              # 随机数
+	random.randrange(9) # 9以内随机数
+	choice()            # 随机返回给定序列的一个元素
+	divmod(x,y)         # 函数完成除法运算，返回商和余数。
+	isinstance(object,int)    # 测试对象类型 int 
+	round(x[,n])        # 函数返回浮点数x的四舍五入值，如给出n值，则代表舍入到小数点后的位数
+	xrange()            # 函数与range()类似，但xrnage()并不创建列表，而是返回一个xrange对象
+		xrange([lower,]stop[,step])
+	strip()             # 是去掉字符串两端多于空格,该句是去除序列中的所有字串两端多余的空格
+	del                 # 删除列表里面的数据
+	cmp(x,y)            # 比较两个对象    #根据比较结果返回一个整数，如果x<y，则返回-1；如果x>y，则返回1,如果x==y则返回0
+	max()               # 字符串中最大的字符
+	min()               # 字符串中最小的字符
+	sorted()            # 对序列排序
+	reversed()          # 对序列倒序
+	enumerate()         # 返回索引位置和对应的值
+	sum()               # 总和
+	list()              # 变成列表可用于迭代
+	tuple()             # 变成元组可用于迭代   #一旦初始化便不能更改的数据结构,速度比list快
+	zip()               # 返回一个列表
+		>>> s = ['11','22','33']
+		>>> t = ['aa','bb','cc']
+		>>> zip(s,t)
+		[('11', 'aa'), ('22', 'bb'), ('33', 'cc')]
+
+
 
 <h5 id="if">if</h5>
 
