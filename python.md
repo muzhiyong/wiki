@@ -41,7 +41,7 @@
 
 
 模块
-[os](python_os)
+[os](python-os)
 
 
 <h5 id="help">help</h5>
