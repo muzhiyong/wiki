@@ -17,6 +17,8 @@
 [集合](#jihe)
 [序列](#xulie)
 [字符串](#zifuchuan)
+[函数式编程的内建函数](#hanshushineijian)
+[正则表达式](#re)
 
 
 #####流程结构
@@ -594,3 +596,48 @@
 	string.split("分隔符")                        # 把string切片成一个列表
 	":".join(string.split())                      # 以:作为分隔符,将所有元素合并为一个新的字符串
 ```
+
+
+
+<h5 id="hanshushineijian"> 函数式编程的内建函数</h5>
+
+```
+	apply(func[,nkw][,kw])          # 用可选的参数来调用func,nkw为非关键字参数,kw为关键字参数;返回值是函数调用的返回值
+	filter(func,seq)                # 调用一个布尔函数func来迭代遍历每个seq中的元素;返回一个使func返回值为true的元素的序列
+	map(func,seq1[,seq2])           # 将函数func作用于给定序列(s)的每个元素,并用一个列表来提供返回值;如果func为None,func表现为一个身份函数,返回一个含有每个序列中元素集合的n个元组的列表
+	reduce(func,seq[,init])         # 将二元函数作用于seq序列的元素,每次携带一堆(先前的结果以及下一个序列元素),连续地将现有的结果和下一个值作用在获得的随后的结果上,最后减少我们的序列为一个单一的返回值;如果初始值init给定,第一个比较会是init和第一个序列元素而不是序列的头两个元素
+```
+
+
+<h5 id="re"> re正则表达式</h5>
+
+```
+	compile(pattern,flags=0)          # 对正则表达式模式pattern进行编译,flags是可选标识符,并返回一个regex对象
+	match(pattern,string,flags=0)     # 尝试用正则表达式模式pattern匹配字符串string,flags是可选标识符,如果匹配成功,则返回一个匹配对象;否则返回None
+	search(pattern,string,flags=0)    # 在字符串string中搜索正则表达式模式pattern的第一次出现,flags是可选标识符,如果匹配成功,则返回一个匹配对象;否则返回None
+	findall(pattern,string[,flags])   # 在字符串string中搜索正则表达式模式pattern的所有(非重复)出现:返回一个匹配对象的列表  # pattern=u'\u4e2d\u6587' 代表UNICODE
+	finditer(pattern,string[,flags])  # 和findall()相同,但返回的不是列表而是迭代器;对于每个匹配,该迭代器返回一个匹配对象
+	split(pattern,string,max=0)       # 根据正则表达式pattern中的分隔符把字符string分割为一个列表,返回成功匹配的列表,最多分割max次(默认所有)
+	sub(pattern,repl,string,max=0)    # 把字符串string中所有匹配正则表达式pattern的地方替换成字符串repl,如果max的值没有给出,则对所有匹配的地方进行替换(subn()会返回一个表示替换次数的数值)
+	group(num=0)                      # 返回全部匹配对象(或指定编号是num的子组)
+	groups()                          # 返回一个包含全部匹配的子组的元组(如果没匹配成功,返回一个空元组)
+```
+	
+* 例子
+
+		re.findall(r'a[be]c','123abc456eaec789')         # 返回匹配对象列表 ['abc', 'aec']
+		re.match("^(1|2) *(.*) *abc$", str).group(2)     # 取第二个标签
+		re.match("^(1|2) *(.*) *abc$", str).groups()     # 取所有标签
+		re.sub('[abc]','A','alex')                       # 替换
+		for i in re.finditer(r'\d+',s):                  # 迭代
+			print i.group(),i.span()                     #
+	
+* 搜索网页中UNICODE格式的中文
+
+		QueryAdd='http://www.anti-spam.org.cn/Rbl/Query/Result'
+		Ip='222.129.184.52'
+		s = requests.post(url=QueryAdd, data={'IP':Ip})
+		re.findall(u'\u4e2d\u56fd', s.text, re.S)
+
+
+
