@@ -31,7 +31,7 @@
 
 
 - 开发语言带的简易模块
-    - python ：$ python -m SimpleHTTPServer
+    - python ：$ python -m SimpleHTTPServer 8000
     - php: $ php -S localhost:8000
     - ruby: $ ruby -run -e httpd . -p 5000
 
