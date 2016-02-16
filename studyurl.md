@@ -1,17 +1,31 @@
-python  http://www.pythoner.cn/
+python  
+
+http://www.pythoner.cn/
 
 mysql  见表 常见sql等
 
-flask   http://docs.jinkan.org/docs/flask/index.html
+flask   
 
-django  https://www.djangoproject.com/
+http://docs.jinkan.org/docs/flask/index.html
+
+django 
+
+https://www.djangoproject.com/
 
 自己写一套监控
 
-opentsdb  http://xzcore.sinaapp.com/opentsdb/index.html
+opentsdb  
 
-saltstack http://www.saltstack.cn/
+http://xzcore.sinaapp.com/opentsdb/index.html
 
-前端  http://www.w3school.com.cn/html/
+saltstack 
 
-绘图 http://www.highcharts.com/
+http://www.saltstack.cn/
+
+前端  
+
+http://www.w3school.com.cn/html/
+
+绘图 
+
+http://www.highcharts.com/
