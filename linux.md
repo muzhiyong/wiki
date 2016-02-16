@@ -63,7 +63,7 @@
 [tcpdump](#tcpdump)
 [dmesg](#dmesg)   ------
 
-内核相关(Kernel)
+[内核相关](Kernel)
 
 
 
