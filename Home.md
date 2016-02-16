@@ -30,6 +30,9 @@
 [mac](mac)
 
 
+[学习网站](studyurl)
+
+
 - 开发语言带的简易模块
     - python ：$ python -m SimpleHTTPServer 8000
     - php: $ php -S localhost:8000
