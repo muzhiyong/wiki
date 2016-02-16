@@ -17,6 +17,8 @@
 数据库
 [mysql](mysql)|[mongodb](mongodb)
 
+K-V缓存存储
+[redis](redis)|[ttserver](ttserver)
 
 存储
 [nsq](nsq)
