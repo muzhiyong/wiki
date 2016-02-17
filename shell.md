@@ -12,6 +12,7 @@
 
 [except](except)
 
+[read](linuxread)
 
 [重定向](#chongdingxiang) | [运算符](#yunsuanfu) |[数学运算](#shuxueyunsuan)
 
