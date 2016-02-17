@@ -29,6 +29,8 @@ K-V缓存存储
 监控
 [nagios](nagios)|[cacti](cacit)|[zabbix](zabbix)
 
+[备份](backup)
+
 [mac](mac)
 
 
