@@ -1,4 +1,3 @@
-
 思路
 
 ```
@@ -43,14 +42,21 @@ def start():
 		#print ip+"-"+log+"-"+day
 		#print log
 		#print day
+                #crontab 文件生成
 		Conf_File = CreateFile(str(ip))
 		file_object = open(Conf_File,'a')
 		cron = '* * * * * root /usr/sbin/logrotate -f /data/muzy/logrotate/%slogrotate.conf  -d > /tmp/logrotate.log 2>&1 &' %ip
 		file_object.writelines(cron)
 		file_object.close()
-
-		logrotate_File = CreateFile(ip+logrotate)
-		file_object = open(Conf_File,'a')
+                 
+                #logrotate 文件生成
+		logrotate_filename =  ip+"-"+"logrotate"
+                
+		logrotate_File = CreateFile(logrotate_filename)
+		logrotate_file_object = open(logrotate_File,'a')
+		logconf_head = '%s {\ndaily\ncopytruncate\nifempty\nrotate %s\ndateext\n}' %(log,day)
+		logrotate_file_object.writelines(logconf_head)
+		logrotate_file_object.close()
 
 
 def CreateFile(filename):
