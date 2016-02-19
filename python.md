@@ -41,6 +41,8 @@
 
 [异常处理](python-try-excpet)
 
+[日志切割系统](pythonlog)
+
 
 模块
 [os](python-os)
